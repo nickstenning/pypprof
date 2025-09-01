@@ -1,10 +1,9 @@
 from __future__ import print_function
 
 import gc
-import pkg_resources
+import importlib
 import sys
 import threading
-import time
 import traceback
 
 import six
@@ -79,7 +78,7 @@ class PProfRequestHandler(BaseHTTPRequestHandler):
             self.send_error(404)
 
     def index(self):
-        template = pkg_resources.resource_string(__name__, "index.html").decode("utf-8")
+        template = importlib.resources.read_text(__name__, "index.html")
         body = template.format(num_threads=threading.active_count())
 
         self.send_response(200)
